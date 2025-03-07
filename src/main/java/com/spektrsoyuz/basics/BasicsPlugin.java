@@ -20,6 +20,11 @@ public final class BasicsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        boolean correctVersion = configController.checkVersion(BasicsUtils.CONFIG_VERSION);
+        if (!correctVersion) {
+            getComponentLogger().error("Config file is out of date! Version {} is required.", BasicsUtils.CONFIG_VERSION);
+            getServer().getPluginManager().disablePlugin(this);
+        }
     }
 
     @Override

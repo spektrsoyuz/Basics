@@ -11,12 +11,14 @@ repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("redis.clients:jedis:5.2.0")
     implementation("org.spongepowered:configurate-hocon:4.1.2")
+    implementation("net.kyori:adventure-api:4.20.0-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
 }
