@@ -1,6 +1,13 @@
 name: Basics
 version: '1.0'
 main: com.spektrsoyuz.basics.BasicsPlugin
-api-version: '1.21'
+description: A lightweight paper plugin that adds essential commands and features
+api-version: '1.21.4'
 load: STARTUP
 authors: [ SpektrSoyuz ]
+dependencies:
+  server:
+    PlaceholderAPI:
+      load: AFTER
+      required: false
+      join-classpath: true
