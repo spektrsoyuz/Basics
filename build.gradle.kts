@@ -20,7 +20,7 @@ dependencies {
     implementation("org.spongepowered:configurate-hocon:4.1.2")
     implementation("net.kyori:adventure-api:4.20.0-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.3.0")
 }
 
 java {
