@@ -31,8 +31,9 @@ public final class BroadcastCommand {
         final String message = context.getArgument("message", String.class)
                 .replace("\\t", "   ");
 
-        plugin.getServer().forEachAudience(audience -> plugin.configController().message(audience, "command-broadcast",
+        plugin.getServer().broadcast(plugin.configController().message("command-broadcast",
                 Placeholder.parsed("message", message)));
+
         return Command.SINGLE_SUCCESS;
     }
 }

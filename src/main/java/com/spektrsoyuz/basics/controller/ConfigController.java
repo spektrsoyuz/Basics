@@ -2,7 +2,6 @@ package com.spektrsoyuz.basics.controller;
 
 import com.spektrsoyuz.basics.BasicsPlugin;
 import lombok.RequiredArgsConstructor;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -50,13 +49,5 @@ public class ConfigController {
         return message != null
                 ? MiniMessage.miniMessage().deserialize(message, resolvers)
                 : Component.text(key);
-    }
-
-    public void message(final Audience audience, final String key, final TagResolver... resolvers) {
-        final String message = messages.node(key).getString();
-
-        audience.sendMessage(message != null
-                ? MiniMessage.miniMessage().deserialize(message, resolvers)
-                : Component.text(key));
     }
 }
