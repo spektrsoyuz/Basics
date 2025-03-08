@@ -2,18 +2,15 @@ package com.spektrsoyuz.basics.controller;
 
 import com.spektrsoyuz.basics.BasicsPlugin;
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @RequiredArgsConstructor
 public class ConfigController {
@@ -47,17 +44,19 @@ public class ConfigController {
         return config.node("version").getInt(0) == current;
     }
 
-    public Component getMessage(final String key, final TagResolver... resolvers) {
+    public Component message(final String key, final TagResolver... resolvers) {
         final String message = messages.node(key).getString();
 
-        if (message == null) {
-            return Component.text(key);
-        }
+        return message != null
+                ? MiniMessage.miniMessage().deserialize(message, resolvers)
+                : Component.text(key);
+    }
 
-        final TagResolver prefix = Placeholder.parsed("prefix", messages.node("prefix").getString(""));
-        final List<TagResolver> allResolvers = new ArrayList<>(Arrays.asList(resolvers));
-        allResolvers.add(prefix);
+    public void message(final Audience audience, final String key, final TagResolver... resolvers) {
+        final String message = messages.node(key).getString();
 
-        return MiniMessage.miniMessage().deserialize(message, allResolvers.toArray(new TagResolver[0]));
+        audience.sendMessage(message != null
+                ? MiniMessage.miniMessage().deserialize(message, resolvers)
+                : Component.text(key));
     }
 }
