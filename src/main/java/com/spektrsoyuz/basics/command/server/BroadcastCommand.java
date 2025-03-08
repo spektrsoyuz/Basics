@@ -17,6 +17,7 @@ public final class BroadcastCommand {
 
     private final BasicsPlugin plugin;
 
+    // Register the command
     public void register(final Commands registrar) {
         var command = Commands.literal("broadcast")
                 .requires(stack -> stack.getSender().hasPermission("basics.command.broadcast"))
@@ -27,6 +28,7 @@ public final class BroadcastCommand {
         registrar.register(command, "Broadcast a message to the server", List.of("say", "announce", "bc"));
     }
 
+    // Broadcast a message
     private int broadcast(final CommandContext<CommandSourceStack> context) {
         final String message = context.getArgument("message", String.class)
                 .replace("\\t", "   ");
