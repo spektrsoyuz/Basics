@@ -19,7 +19,7 @@ public final class BroadcastCommand {
 
     // Register the command
     public void register(final Commands registrar) {
-        var command = Commands.literal("broadcast")
+        final var command = Commands.literal("broadcast")
                 .requires(stack -> stack.getSender().hasPermission("basics.command.broadcast"))
                 .then(Commands.argument("message", StringArgumentType.greedyString())
                         .executes(this::broadcast))

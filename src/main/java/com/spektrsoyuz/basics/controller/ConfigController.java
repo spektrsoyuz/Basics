@@ -5,12 +5,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 public class ConfigController {
@@ -29,7 +32,9 @@ public class ConfigController {
     // Get a configurate node from a config file path
     private CommentedConfigurationNode loadNode(final String path) {
         final File file = new File(plugin.getDataFolder(), path);
-        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder().path(file.toPath()).build();
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .path(file.toPath())
+                .build();
 
         if (!file.exists()) {
             plugin.saveResource(path, false); // save file if not found
@@ -48,12 +53,21 @@ public class ConfigController {
         return config.node("version").getInt(0) == current;
     }
 
+    public String getPrefix() {
+        return messages.node("prefix").getString();
+    }
+
     // Get an adventure component from a message key and add tag resolvers
     public Component message(final String key, final TagResolver... resolvers) {
         final String message = messages.node(key).getString();
 
+        final TagResolver[] combinedResolvers = Stream.concat(
+                Arrays.stream(resolvers),
+                Stream.of(Placeholder.parsed("prefix", getPrefix()))
+        ).toArray(TagResolver[]::new);
+
         return message != null
-                ? MiniMessage.miniMessage().deserialize(message, resolvers)
+                ? MiniMessage.miniMessage().deserialize(message, combinedResolvers)
                 : Component.text(key);
     }
 }

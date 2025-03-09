@@ -1,5 +1,6 @@
 package com.spektrsoyuz.basics;
 
+import com.spektrsoyuz.basics.command.player.PingCommand;
 import com.spektrsoyuz.basics.command.server.BroadcastCommand;
 import com.spektrsoyuz.basics.controller.ConfigController;
 import io.papermc.paper.command.brigadier.Commands;
@@ -52,6 +53,7 @@ public final class BasicsPlugin extends JavaPlugin {
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands registrar = event.registrar();
 
+            new PingCommand(this).register(registrar);
             new BroadcastCommand(this).register(registrar);
         });
     }
