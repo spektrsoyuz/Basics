@@ -54,6 +54,7 @@ public class ConfigController {
         return config.node("version").getInt(0) == current;
     }
 
+    // Get the command prefix
     public String getPrefix() {
         return messages.node("prefix").getString();
     }
