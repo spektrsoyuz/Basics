@@ -1,8 +1,11 @@
 package com.spektrsoyuz.basics.controller;
 
 import com.spektrsoyuz.basics.BasicsPlugin;
+import com.spektrsoyuz.basics.model.PluginConfig;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.experimental.Accessors;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -10,32 +13,42 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+@Getter
+@Accessors(fluent = true)
 @RequiredArgsConstructor
 public class ConfigController {
 
     private final BasicsPlugin plugin;
-    private CommentedConfigurationNode config;
+    private PluginConfig config;
     private CommentedConfigurationNode messages;
 
     // Load config files
     @SneakyThrows
     public void load() {
-        config = loadNode("config.conf");
+        final CommentedConfigurationNode configNode = loadNode("config.conf");
+        try {
+            config = configNode != null
+                    ? configNode.get(PluginConfig.class)
+                    : null;
+        } catch (final SerializationException ex) {
+            throw new RuntimeException(ex);
+        }
         messages = loadNode("messages.conf");
     }
 
-    // Get a configurate node from a config file path
+    // Get a configurate node from a file path
     private CommentedConfigurationNode loadNode(final String path) {
         final File file = new File(plugin.getDataFolder(), path);
 
         if (!file.exists()) {
-            plugin.getComponentLogger().debug("Config file {} not found, creating it", path);
+            plugin.getComponentLogger().debug("File {} not found, creating it", path);
             plugin.saveResource(path, false); // save file if not found
         }
 
@@ -53,7 +66,7 @@ public class ConfigController {
 
     // Get the config version
     public boolean checkVersion(final int current) {
-        return config.node("version").getInt(0) == current;
+        return config.version() == current;
     }
 
     // Get the command prefix

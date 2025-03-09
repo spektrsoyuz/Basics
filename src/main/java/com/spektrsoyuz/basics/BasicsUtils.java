@@ -7,4 +7,5 @@ public class BasicsUtils {
     public static final String PERMISSION_COMMAND_PING = "basics.command.ping";
     public static final String PERMISSION_COMMAND_PING_OTHER = "basics.command.ping.other";
     public static final String PERMISSION_COMMAND_BROADCAST = "basics.command.broadcast";
+    public static final String PERMISSION_COMMAND_BASICS = "basics.command.basics";
 }
