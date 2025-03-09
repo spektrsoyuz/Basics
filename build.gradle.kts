@@ -21,7 +21,6 @@ dependencies {
     implementation("net.kyori:adventure-api:4.20.0-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.3.0")
-    compileOnly("org.bstats:bstats-bukkit:3.0.2")
 }
 
 java {
