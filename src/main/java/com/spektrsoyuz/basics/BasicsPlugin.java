@@ -8,6 +8,7 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.Component;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.URI;
@@ -28,6 +29,8 @@ public final class BasicsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        @SuppressWarnings("unused") final Metrics metrics = new Metrics(this, 25030);
+
         boolean correctVersion = configController.checkVersion(BasicsUtils.CONFIG_VERSION);
         if (!correctVersion) {
             getComponentLogger().error("Config file is out of date! Version {} is required.", BasicsUtils.CONFIG_VERSION);
