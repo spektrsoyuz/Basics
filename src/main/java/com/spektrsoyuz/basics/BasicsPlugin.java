@@ -31,6 +31,7 @@ public final class BasicsPlugin extends JavaPlugin {
         if (!correctVersion) {
             getComponentLogger().error("Config file is out of date! Version {} is required.", BasicsUtils.CONFIG_VERSION);
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         registerListeners();
