@@ -35,6 +35,7 @@ public class ConfigController {
         final File file = new File(plugin.getDataFolder(), path);
 
         if (!file.exists()) {
+            plugin.getComponentLogger().debug("Config file {} not found, creating it", path);
             plugin.saveResource(path, false); // save file if not found
         }
 
