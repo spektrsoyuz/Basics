@@ -32,13 +32,14 @@ public class ConfigController {
     // Get a configurate node from a config file path
     private CommentedConfigurationNode loadNode(final String path) {
         final File file = new File(plugin.getDataFolder(), path);
-        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
-                .path(file.toPath())
-                .build();
 
         if (!file.exists()) {
             plugin.saveResource(path, false); // save file if not found
         }
+
+        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+                .path(file.toPath())
+                .build();
 
         try {
             return loader.load();
