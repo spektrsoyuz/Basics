@@ -1,7 +1,6 @@
 package com.spektrsoyuz.basics.controller;
 
 import com.spektrsoyuz.basics.BasicsPlugin;
-import com.spektrsoyuz.basics.model.PluginConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import net.kyori.adventure.text.Component;
@@ -17,23 +16,14 @@ import java.io.IOException;
 public class ConfigController {
 
     private final BasicsPlugin plugin;
-    private PluginConfig config;
+    private CommentedConfigurationNode config;
     private CommentedConfigurationNode messages;
 
     // Load config files
-    public void load() {
-        config = loadConfig();
-        messages = loadNode("messages.conf");
-    }
-
-    // Populate PluginConfig object from configurate node
     @SneakyThrows
-    private PluginConfig loadConfig() {
-        final var node = loadNode("config.conf");
-        if (node != null) {
-            return node.get(PluginConfig.class);
-        }
-        return null;
+    public void load() {
+        config = loadNode("config.conf");
+        messages = loadNode("messages.conf");
     }
 
     // Get a configurate node from a config file path
@@ -55,7 +45,7 @@ public class ConfigController {
 
     // Get the config version
     public boolean checkVersion(final int current) {
-        return config.version() == current;
+        return config.node("version").getInt(0) == current;
     }
 
     // Get an adventure component from a message key and add tag resolvers
