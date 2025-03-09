@@ -1,5 +1,7 @@
 package com.spektrsoyuz.basics.command.player;
 
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.spektrsoyuz.basics.BasicsPlugin;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -15,6 +17,7 @@ import org.bukkit.entity.Player;
 public abstract class PlayerCommand {
 
     protected final BasicsPlugin plugin;
+    private static final SimpleCommandExceptionType SENDER_NOT_PLAYER_EX = new SimpleCommandExceptionType(() -> "Specify a player.");
 
     // Create the command node
     public LiteralCommandNode<CommandSourceStack> create(final String name, final String permission, final String permissionOther) {
@@ -31,10 +34,9 @@ public abstract class PlayerCommand {
     }
 
     // Run the command
-    protected int execute(final CommandSender sender) {
+    protected int execute(final CommandSender sender) throws CommandSyntaxException {
         if (sender instanceof Player player) return execute(sender, player);
-        sender.sendMessage(plugin.configController().message("sender-not-player"));
-        return 0;
+        throw SENDER_NOT_PLAYER_EX.create();
     }
 
     protected abstract int execute(final CommandSender sender, final Player player);
