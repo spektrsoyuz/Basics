@@ -3,6 +3,7 @@ package com.spektrsoyuz.basics.controller;
 import com.spektrsoyuz.basics.BasicsPlugin;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -60,7 +61,7 @@ public class ConfigController {
     }
 
     // Get an adventure component from a message key and add tag resolvers
-    public Component message(final String key, final TagResolver... resolvers) {
+    public void message(final Audience audience, final String key, final TagResolver... resolvers) {
         final String message = messages.node(key).getString();
 
         final TagResolver[] combinedResolvers = Stream.concat(
@@ -68,8 +69,8 @@ public class ConfigController {
                 Stream.of(Placeholder.parsed("prefix", getPrefix()))
         ).toArray(TagResolver[]::new);
 
-        return message != null
+        audience.sendMessage(message != null
                 ? MiniMessage.miniMessage().deserialize(message, combinedResolvers)
-                : Component.text(key);
+                : Component.text(key));
     }
 }

@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.spektrsoyuz.basics.BasicsPlugin;
+import com.spektrsoyuz.basics.BasicsUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public final class BroadcastCommand {
     // Register the command
     public void register(final Commands registrar) {
         final var command = Commands.literal("broadcast")
-                .requires(stack -> stack.getSender().hasPermission("basics.command.broadcast"))
+                .requires(stack -> stack.getSender().hasPermission(BasicsUtils.PERMISSION_COMMAND_BROADCAST))
                 .then(Commands.argument("message", StringArgumentType.greedyString())
                         .executes(this::broadcast))
                 .build();
@@ -33,7 +34,7 @@ public final class BroadcastCommand {
         final String message = context.getArgument("message", String.class)
                 .replace("\\t", "   ");
 
-        plugin.getServer().broadcast(plugin.configController().message("command-broadcast",
+        plugin.getServer().forEachAudience(audience -> plugin.configController().message(audience, "command-broadcast",
                 Placeholder.parsed("message", message)));
 
         return Command.SINGLE_SUCCESS;
