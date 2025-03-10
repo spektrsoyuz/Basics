@@ -1,11 +1,8 @@
 package com.spektrsoyuz.basics.controller;
 
 import com.spektrsoyuz.basics.BasicsPlugin;
-import com.spektrsoyuz.basics.model.PluginConfig;
-import lombok.Getter;
+import com.spektrsoyuz.basics.BasicsUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -13,38 +10,34 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-@Getter
-@Accessors(fluent = true)
 @RequiredArgsConstructor
 public class ConfigController {
 
     private final BasicsPlugin plugin;
-    private PluginConfig config;
+    private HoconConfigurationLoader configLoader;
+    private HoconConfigurationLoader messagesLoader;
+    private CommentedConfigurationNode config;
     private CommentedConfigurationNode messages;
 
     // Load config files
-    @SneakyThrows
-    public void load() {
-        final CommentedConfigurationNode configNode = loadNode("config.conf");
-        try {
-            config = configNode != null
-                    ? configNode.get(PluginConfig.class)
-                    : null;
-        } catch (final SerializationException ex) {
-            throw new RuntimeException(ex);
-        }
-        messages = loadNode("messages.conf");
+    public boolean load() {
+        configLoader = createLoader("config.conf");
+        messagesLoader = createLoader("messages.conf");
+
+        config = loadNode(configLoader);
+        messages = loadNode(messagesLoader);
+
+        return config != null && messages != null;
     }
 
-    // Get a configurate node from a file path
-    private CommentedConfigurationNode loadNode(final String path) {
+    // Create a configurate loader from a file path
+    private HoconConfigurationLoader createLoader(final String path) {
         final File file = new File(plugin.getDataFolder(), path);
 
         if (!file.exists()) {
@@ -52,10 +45,14 @@ public class ConfigController {
             plugin.saveResource(path, false); // save file if not found
         }
 
-        final HoconConfigurationLoader loader = HoconConfigurationLoader.builder()
+        return HoconConfigurationLoader.builder()
                 .path(file.toPath())
+                .prettyPrinting(true)
                 .build();
+    }
 
+    // Get a configurate node from a file path
+    private CommentedConfigurationNode loadNode(final HoconConfigurationLoader loader) {
         try {
             return loader.load();
         } catch (final IOException ex) {
@@ -66,7 +63,7 @@ public class ConfigController {
 
     // Get the config version
     public boolean checkVersion(final int current) {
-        return config.version() == current;
+        return config.node("version").getInt(BasicsUtils.CONFIG_VERSION) == current;
     }
 
     // Get the command prefix
@@ -86,5 +83,15 @@ public class ConfigController {
         audience.sendMessage(message != null
                 ? MiniMessage.miniMessage().deserialize(message, combinedResolvers)
                 : Component.text(key));
+    }
+
+    // Save the configuration
+    public void save() {
+        try {
+            configLoader.save(config);
+            messagesLoader.save(messages);
+        } catch (final IOException ex) {
+            plugin.getComponentLogger().error("Failed to save config file: {}", ex.getMessage());
+        }
     }
 }
