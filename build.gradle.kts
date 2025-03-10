@@ -4,7 +4,7 @@ plugins {
     id("io.freefair.lombok") version "8.12.2.1"
 }
 
-group = "net.cc"
+group = "com.spektrsoyuz"
 version = "1.0"
 
 repositories {
