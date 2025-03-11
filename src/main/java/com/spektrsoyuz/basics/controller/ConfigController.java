@@ -15,6 +15,7 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Stream;
@@ -53,7 +54,7 @@ public class ConfigController {
     private CommentedConfigurationNode loadNode(final String fileName) {
         final Path file = plugin.getDataPath().resolve(fileName);
 
-        if (!file.toFile().exists()) {
+        if (!Files.exists(file)) {
             plugin.getComponentLogger().debug("File {} not found, creating it", fileName);
             plugin.saveResource(fileName, false); // save file if not found
         }
