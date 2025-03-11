@@ -23,7 +23,7 @@ public final class BasicsPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         // Plugin load logic
-        configController.load();
+        configController.reload();
     }
 
     @Override

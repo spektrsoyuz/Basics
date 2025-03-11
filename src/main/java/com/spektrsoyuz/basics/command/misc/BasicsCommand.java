@@ -25,7 +25,7 @@ public final class BasicsCommand {
     }
 
     private int reload(final CommandContext<CommandSourceStack> context) {
-        if (plugin.configController().load()) {
+        if (plugin.configController().reload()) {
             plugin.configController().message(context.getSource().getSender(), "command-basics-reload");
         } else {
             plugin.configController().message(context.getSource().getSender(), "command-basics-reload-error");
