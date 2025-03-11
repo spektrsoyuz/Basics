@@ -19,6 +19,8 @@ public final class BasicsCommand {
                 .requires(stack -> stack.getSender().hasPermission(BasicsUtils.PERMISSION_COMMAND_BASICS))
                 .then(Commands.literal("reload")
                         .executes(this::reload))
+                .then(Commands.literal("save")
+                        .executes(this::save))
                 .build();
 
         registrar.register(command, "Manage the plugin");
@@ -30,7 +32,12 @@ public final class BasicsCommand {
         } else {
             plugin.configController().message(context.getSource().getSender(), "command-basics-reload-error");
         }
+        return Command.SINGLE_SUCCESS;
+    }
 
+    private int save(final CommandContext<CommandSourceStack> context) {
+        plugin.configController().save();
+        plugin.configController().message(context.getSource().getSender(), "command-basics-save");
         return Command.SINGLE_SUCCESS;
     }
 }
