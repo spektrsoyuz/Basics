@@ -75,6 +75,11 @@ public final class TeleportCommand {
 
             this.plugin.getConfigController().sendMessage(sender, "command-teleport-player",
                     Placeholder.parsed("target", target.getName()));
+
+            if (!player.equals(target)) {
+                this.plugin.getConfigController().sendMessage(target, "command-teleport-observer",
+                        Placeholder.parsed("player", player.getName()));
+            }
             return Command.SINGLE_SUCCESS;
         } else {
             this.plugin.getConfigController().sendMessage(sender, "error-player-not-sender");
@@ -88,13 +93,17 @@ public final class TeleportCommand {
 
         final FinePosition finePosition = context.getArgument("finePosition", FinePositionResolver.class)
                 .resolve(context.getSource());
-        final Player player = context.getArgument("player", PlayerSelectorArgumentResolver.class)
+        final Player target = context.getArgument("player", PlayerSelectorArgumentResolver.class)
                 .resolve(context.getSource()).getFirst();
-        final Location location = finePosition.toLocation(player.getWorld());
+        final Location location = finePosition.toLocation(target.getWorld());
 
-        player.teleportAsync(location, PlayerTeleportEvent.TeleportCause.COMMAND);
+        target.teleportAsync(location, PlayerTeleportEvent.TeleportCause.COMMAND);
         this.plugin.getConfigController().sendMessage(sender, "command-teleport-player-to-position",
-                getFinePositionResolvers(player, location));
+                getFinePositionResolvers(target, location));
+
+        if (!(sender instanceof Player player && player.equals(target))) {
+            this.plugin.getConfigController().sendMessage(target, "command-teleport-recipient");
+        }
         return Command.SINGLE_SUCCESS;
     }
 
@@ -111,6 +120,12 @@ public final class TeleportCommand {
         this.plugin.getConfigController().sendMessage(sender, "command-teleport-player-to-player",
                 Placeholder.parsed("player", player.getName()),
                 Placeholder.parsed("target", target.getName()));
+
+        if (!(sender instanceof Player senderPlayer && senderPlayer.equals(target))) {
+            this.plugin.getConfigController().sendMessage(player, "command-teleport-recipient");
+            this.plugin.getConfigController().sendMessage(target, "command-teleport-observer",
+                    Placeholder.parsed("player", player.getName()));
+        }
         return Command.SINGLE_SUCCESS;
     }
 
