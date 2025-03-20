@@ -4,6 +4,7 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.spektrsoyuz.basics.BasicsPlugin;
+import com.spektrsoyuz.basics.BasicsUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
@@ -29,7 +30,7 @@ public final class TeleportCommand {
     // Registers the command
     public void register(final Commands registrar) {
         final var command = Commands.literal("teleport")
-                .requires(stack -> stack.getSender().hasPermission("basics.command.teleport"))
+                .requires(stack -> stack.getSender().hasPermission(BasicsUtils.PERMISSION_COMMAND_TELEPORT))
                 .then(Commands.argument("finePosition", ArgumentTypes.finePosition())
                         .executes(this::teleportToPosition))
                 .then(Commands.argument("player", ArgumentTypes.player())
