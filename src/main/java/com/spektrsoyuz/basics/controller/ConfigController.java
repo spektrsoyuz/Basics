@@ -1,6 +1,7 @@
 package com.spektrsoyuz.basics.controller;
 
 import com.spektrsoyuz.basics.BasicsPlugin;
+import io.github.miniplaceholders.api.MiniPlaceholders;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
@@ -15,6 +16,7 @@ import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 // Controller class for managing configuration files
@@ -72,13 +74,15 @@ public final class ConfigController {
     public void sendMessage(final Audience audience, final String key, final TagResolver... resolvers) {
         final String message = this.messagesNode.node(key).getString();
 
-        final TagResolver[] allResolvers = Stream.concat(
-                Arrays.stream(resolvers),
-                Stream.of(Placeholder.parsed("prefix", getPrefix()))
-        ).toArray(TagResolver[]::new);
+        final List<TagResolver> tagResolvers = Arrays.asList(resolvers);
+        tagResolvers.add(Placeholder.parsed("prefix", getPrefix()));
+
+        if (this.plugin.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
+            tagResolvers.add(MiniPlaceholders.getAudiencePlaceholders(audience));
+        }
 
         audience.sendMessage(message != null
-                ? MiniMessage.miniMessage().deserialize(message, allResolvers)
+                ? MiniMessage.miniMessage().deserialize(message, tagResolvers.toArray(new TagResolver[0]))
                 : Component.text(key));
     }
 }

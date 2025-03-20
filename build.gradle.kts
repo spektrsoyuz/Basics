@@ -19,6 +19,7 @@ dependencies {
     implementation("com.zaxxer:HikariCP:6.2.1")
     implementation("org.spongepowered:configurate-hocon:4.2.0")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.3.0")
 
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 }
