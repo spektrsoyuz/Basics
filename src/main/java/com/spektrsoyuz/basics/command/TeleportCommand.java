@@ -123,8 +123,11 @@ public final class TeleportCommand {
 
         if (!(sender instanceof Player senderPlayer && senderPlayer.equals(target))) {
             this.plugin.getConfigController().sendMessage(player, "command-teleport-recipient");
-            this.plugin.getConfigController().sendMessage(target, "command-teleport-observer",
-                    Placeholder.parsed("player", player.getName()));
+
+            if (!player.equals(target)) {
+                this.plugin.getConfigController().sendMessage(target, "command-teleport-observer",
+                        Placeholder.parsed("player", player.getName()));
+            }
         }
         return Command.SINGLE_SUCCESS;
     }
