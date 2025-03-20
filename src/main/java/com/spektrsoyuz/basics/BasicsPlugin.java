@@ -28,15 +28,18 @@ public final class BasicsPlugin extends JavaPlugin {
         // Plugin startup logic
         final int configVersion = this.configController.getVersion();
 
+        // Verify config version
         if (configVersion != BasicsUtils.CONFIG_VERSION) {
             getComponentLogger().error("Config version {} does not match required version {}, disabling plugin", configVersion, BasicsUtils.CONFIG_VERSION);
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
 
+        // Initialize controllers
         this.dataController.initialize();
         this.playerController.initialize();
 
+        // Register features
         registerCommands();
         registerListeners();
         registerTasks();

@@ -21,6 +21,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
 
+// Command class for the /teleport command
 @RequiredArgsConstructor
 @SuppressWarnings("UnstableApiUsage")
 public final class TeleportCommand {
@@ -29,16 +30,20 @@ public final class TeleportCommand {
 
     // Registers the command
     public void register(final Commands registrar) {
+        final var finePositionArgument = Commands.argument("finePosition", ArgumentTypes.finePosition())
+                .executes(this::teleportToPosition);
+
+        final var playerArgument = Commands.argument("player", ArgumentTypes.player())
+                .then(Commands.argument("finePosition", ArgumentTypes.finePosition())
+                        .executes(this::teleportPlayerToPosition))
+                .then(Commands.argument("target", ArgumentTypes.player())
+                        .executes(this::teleportPlayerToPlayer))
+                .executes(this::teleportToPlayer);
+
         final var command = Commands.literal("teleport")
                 .requires(stack -> stack.getSender().hasPermission(BasicsUtils.PERMISSION_COMMAND_TELEPORT))
-                .then(Commands.argument("finePosition", ArgumentTypes.finePosition())
-                        .executes(this::teleportToPosition))
-                .then(Commands.argument("player", ArgumentTypes.player())
-                        .then(Commands.argument("finePosition", ArgumentTypes.finePosition())
-                                .executes(this::teleportPlayerToPosition))
-                        .then(Commands.argument("target", ArgumentTypes.player())
-                                .executes(this::teleportPlayerToPlayer))
-                        .executes(this::teleportToPlayer))
+                .then(finePositionArgument)
+                .then(playerArgument)
                 .build();
 
         registrar.register(command, "Teleport to a location", List.of("tp"));
@@ -55,6 +60,7 @@ public final class TeleportCommand {
 
             player.teleportAsync(location, PlayerTeleportEvent.TeleportCause.COMMAND);
 
+            // Send message to command sender
             this.plugin.getConfigController().sendMessage(player, "command-teleport-position",
                     getFinePositionResolvers(player, location));
             return Command.SINGLE_SUCCESS;
@@ -74,9 +80,11 @@ public final class TeleportCommand {
 
             player.teleportAsync(target.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
 
+            // Send message to command sender
             this.plugin.getConfigController().sendMessage(sender, "command-teleport-player",
                     Placeholder.parsed("target", target.getName()));
 
+            // Send message to target player
             if (!player.equals(target)) {
                 this.plugin.getConfigController().sendMessage(target, "command-teleport-observer",
                         Placeholder.parsed("player", player.getName()));
@@ -99,9 +107,12 @@ public final class TeleportCommand {
         final Location location = finePosition.toLocation(target.getWorld());
 
         target.teleportAsync(location, PlayerTeleportEvent.TeleportCause.COMMAND);
+
+        // Send message to command sender
         this.plugin.getConfigController().sendMessage(sender, "command-teleport-player-to-position",
                 getFinePositionResolvers(target, location));
 
+        // Send message to teleport recipient player
         if (!(sender instanceof Player player && player.equals(target))) {
             this.plugin.getConfigController().sendMessage(target, "command-teleport-recipient");
         }
@@ -122,9 +133,11 @@ public final class TeleportCommand {
                 Placeholder.parsed("player", player.getName()),
                 Placeholder.parsed("target", target.getName()));
 
+        // Send message to teleport recipient player
         if (!(sender instanceof Player senderPlayer && senderPlayer.equals(target))) {
             this.plugin.getConfigController().sendMessage(player, "command-teleport-recipient");
 
+            // Send message to target player
             if (!player.equals(target)) {
                 this.plugin.getConfigController().sendMessage(target, "command-teleport-observer",
                         Placeholder.parsed("player", player.getName()));
