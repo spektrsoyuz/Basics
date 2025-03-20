@@ -1,0 +1,6 @@
+name: Basics
+version: '1.0'
+main: com.spektrsoyuz.basics.BasicsPlugin
+api-version: '1.21.4'
+load: STARTUP
+authors: [SpektrSoyuz]
