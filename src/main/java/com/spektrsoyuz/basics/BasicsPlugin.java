@@ -26,6 +26,14 @@ public final class BasicsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        final int configVersion = this.configController.getVersion();
+
+        if (configVersion != BasicsUtils.CONFIG_VERSION) {
+            getComponentLogger().error("Config version {} does not match required version {}, disabling plugin", configVersion, BasicsUtils.CONFIG_VERSION);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         this.dataController.initialize();
         this.playerController.initialize();
 
