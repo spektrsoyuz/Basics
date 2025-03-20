@@ -7,4 +7,5 @@ public final class BasicsUtils {
 
     // Permission nodes
     public static final String PERMISSION_COMMAND_TELEPORT = "basics.command.teleport";
+    public static final String PERMISSION_COMMAND_TELEPORTHERE = "basics.command.teleporthere";
 }

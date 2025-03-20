@@ -1,6 +1,7 @@
 package com.spektrsoyuz.basics;
 
 import com.spektrsoyuz.basics.command.TeleportCommand;
+import com.spektrsoyuz.basics.command.TeleportHereCommand;
 import com.spektrsoyuz.basics.controller.ConfigController;
 import com.spektrsoyuz.basics.controller.DataController;
 import com.spektrsoyuz.basics.controller.PlayerController;
@@ -56,6 +57,7 @@ public final class BasicsPlugin extends JavaPlugin {
             final Commands registrar = event.registrar();
 
             new TeleportCommand(this).register(registrar);
+            new TeleportHereCommand(this).register(registrar);
         });
     }
 
