@@ -1,8 +1,9 @@
 package com.spektrsoyuz.basics;
 
-import com.spektrsoyuz.basics.command.TeleportAllCommand;
-import com.spektrsoyuz.basics.command.TeleportCommand;
-import com.spektrsoyuz.basics.command.TeleportHereCommand;
+import com.spektrsoyuz.basics.command.player.GameModeCommand;
+import com.spektrsoyuz.basics.command.teleport.TeleportAllCommand;
+import com.spektrsoyuz.basics.command.teleport.TeleportCommand;
+import com.spektrsoyuz.basics.command.teleport.TeleportHereCommand;
 import com.spektrsoyuz.basics.controller.ConfigController;
 import com.spektrsoyuz.basics.controller.DataController;
 import com.spektrsoyuz.basics.controller.PlayerController;
@@ -57,6 +58,10 @@ public final class BasicsPlugin extends JavaPlugin {
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands registrar = event.registrar();
 
+            // Player commands
+            new GameModeCommand(this).register(registrar);
+
+            // Teleport commands
             new TeleportAllCommand(this).register(registrar);
             new TeleportCommand(this).register(registrar);
             new TeleportHereCommand(this).register(registrar);

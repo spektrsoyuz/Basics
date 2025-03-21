@@ -1,4 +1,4 @@
-package com.spektrsoyuz.basics.command;
+package com.spektrsoyuz.basics.command.teleport;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
@@ -64,7 +64,7 @@ public final class TeleportCommand {
                     BasicsUtils.getFinePositionResolvers(player, location));
             return Command.SINGLE_SUCCESS;
         } else {
-            this.plugin.getConfigController().sendMessage(sender, "error-player-not-sender");
+            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
             return 0;
         }
     }
@@ -90,7 +90,7 @@ public final class TeleportCommand {
             }
             return Command.SINGLE_SUCCESS;
         } else {
-            this.plugin.getConfigController().sendMessage(sender, "error-player-not-sender");
+            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
             return 0;
         }
     }

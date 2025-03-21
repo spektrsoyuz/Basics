@@ -1,4 +1,4 @@
-package com.spektrsoyuz.basics.command;
+package com.spektrsoyuz.basics.command.teleport;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;

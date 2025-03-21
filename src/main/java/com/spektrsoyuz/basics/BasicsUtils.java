@@ -10,7 +10,9 @@ public final class BasicsUtils {
     // Constants
     public static final int CONFIG_VERSION = 1;
 
-    // Permission nodes
+    // Permission Nodes
+    public static final String PERMISSION_COMMAND_GAMEMODE = "basics.command.gamemode";
+
     public static final String PERMISSION_COMMAND_TELEPORTALL = "basics.command.teleportall";
     public static final String PERMISSION_COMMAND_TELEPORT = "basics.command.teleport";
     public static final String PERMISSION_COMMAND_TELEPORTHERE = "basics.command.teleporthere";

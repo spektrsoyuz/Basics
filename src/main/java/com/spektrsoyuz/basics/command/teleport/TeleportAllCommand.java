@@ -1,4 +1,4 @@
-package com.spektrsoyuz.basics.command;
+package com.spektrsoyuz.basics.command.teleport;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
@@ -27,6 +27,7 @@ public final class TeleportAllCommand {
 
     private final BasicsPlugin plugin;
 
+    // Registers the command
     public void register(final Commands registrar) {
         final var finePositionArgument = Commands.argument("finePosition", ArgumentTypes.finePosition())
                 .executes(this::teleportToPosition);
@@ -43,7 +44,7 @@ public final class TeleportAllCommand {
         registrar.register(command, "Teleport all players to a location", List.of("tpall"));
     }
 
-    // Teleport all online players to a fine position
+    // Teleports all online players to a fine position
     private int teleportToPosition(final CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         final CommandSender sender = context.getSource().getSender();
 
@@ -70,7 +71,7 @@ public final class TeleportAllCommand {
         }
     }
 
-    // Teleport all online players to a target player
+    // Teleports all online players to a target player
     private int teleportToPlayer(final CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         final CommandSender sender = context.getSource().getSender();
 
