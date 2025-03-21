@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 // Controller class for managing the database connection
 @RequiredArgsConstructor
-public final class DataController{
+public final class DataController {
 
     private final BasicsPlugin plugin;
 
