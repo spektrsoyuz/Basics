@@ -1,6 +1,6 @@
 package com.spektrsoyuz.basics;
 
-import com.spektrsoyuz.basics.command.player.GameModeCommand;
+import com.spektrsoyuz.basics.command.player.*;
 import com.spektrsoyuz.basics.command.teleport.TeleportAllCommand;
 import com.spektrsoyuz.basics.command.teleport.TeleportCommand;
 import com.spektrsoyuz.basics.command.teleport.TeleportHereCommand;
@@ -60,6 +60,10 @@ public final class BasicsPlugin extends JavaPlugin {
 
             // Player commands
             new GameModeCommand(this).register(registrar);
+            new GMACommand(this).register(registrar);
+            new GMCCommand(this).register(registrar);
+            new GMSCommand(this).register(registrar);
+            new GMSPCommand(this).register(registrar);
 
             // Teleport commands
             new TeleportAllCommand(this).register(registrar);
