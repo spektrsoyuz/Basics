@@ -12,6 +12,7 @@ import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSele
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public final class TeleportHereCommand {
             final Player target = context.getArgument("player", PlayerSelectorArgumentResolver.class)
                     .resolve(context.getSource()).getFirst();
 
-            target.teleportAsync(player.getLocation());
+            target.teleportAsync(player.getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
 
             // Send message to command sender
             this.plugin.getConfigController().sendMessage(player, "command-teleport-player-to-sender");

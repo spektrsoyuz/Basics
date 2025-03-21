@@ -13,7 +13,6 @@ import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSele
 import io.papermc.paper.math.FinePosition;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -62,7 +61,7 @@ public final class TeleportCommand {
 
             // Send message to command sender
             this.plugin.getConfigController().sendMessage(player, "command-teleport-position",
-                    getFinePositionResolvers(player, location));
+                    BasicsUtils.getFinePositionResolvers(player, location));
             return Command.SINGLE_SUCCESS;
         } else {
             this.plugin.getConfigController().sendMessage(sender, "error-player-not-sender");
@@ -110,7 +109,7 @@ public final class TeleportCommand {
 
         // Send message to command sender
         this.plugin.getConfigController().sendMessage(sender, "command-teleport-player-to-position",
-                getFinePositionResolvers(target, location));
+                BasicsUtils.getFinePositionResolvers(target, location));
 
         // Send message to teleport recipient player
         if (!(sender instanceof Player player && player.equals(target))) {
@@ -144,18 +143,5 @@ public final class TeleportCommand {
             }
         }
         return Command.SINGLE_SUCCESS;
-    }
-
-    // Get the tag resolvers for a fine position teleport message
-    private TagResolver[] getFinePositionResolvers(final Player player, final Location location) {
-        return new TagResolver[]{
-                Placeholder.parsed("player", player.getName()),
-                Placeholder.parsed("x", String.valueOf(location.getX())),
-                Placeholder.parsed("y", String.valueOf(location.getY())),
-                Placeholder.parsed("z", String.valueOf(location.getZ())),
-                Placeholder.parsed("yaw", String.valueOf(location.getYaw())),
-                Placeholder.parsed("pitch", String.valueOf(location.getPitch())),
-                Placeholder.parsed("world", location.getWorld().getName())
-        };
     }
 }
