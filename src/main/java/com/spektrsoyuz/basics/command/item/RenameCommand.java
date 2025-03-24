@@ -11,6 +11,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -48,7 +49,8 @@ public final class RenameCommand {
             player.getInventory().setItemInMainHand(item);
 
             // Send a message to the sender
-            this.plugin.getConfigController().sendMessage(sender, "command-rename-success");
+            this.plugin.getConfigController().sendMessage(sender, "command-rename-success",
+                    Placeholder.component("name", displayName));
             return Command.SINGLE_SUCCESS;
         } else {
             this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
