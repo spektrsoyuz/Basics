@@ -19,7 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-// Command class for the /rename command
+// Command class for the /recolor command
 @RequiredArgsConstructor
 @SuppressWarnings("UnstableApiUsage")
 public final class RecolorCommand {
@@ -34,10 +34,10 @@ public final class RecolorCommand {
                         .executes(this::recolor))
                 .build();
 
-        registrar.register(command, "Rename an item");
+        registrar.register(command, "Recolor an item");
     }
 
-    // Renames a held item
+    // Recolors a held item
     private int recolor(final CommandContext<CommandSourceStack> context) {
         final CommandSender sender = context.getSource().getSender();
 
