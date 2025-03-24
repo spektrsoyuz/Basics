@@ -29,11 +29,11 @@ public final class PlayerController {
         players.forEach(player -> {
             player.setGameMode(gameMode);
 
-            this.plugin.getConfigController().sendMessage(player, "command-gamemode-changed-self",
+            this.plugin.getConfigController().sendMessage(player, "command-gamemode-self",
                     Placeholder.component("gamemode", Component.translatable(gameMode)));
 
             if (!sender.equals(player)) {
-                this.plugin.getConfigController().sendMessage(sender, "command-gamemode-changed-other",
+                this.plugin.getConfigController().sendMessage(sender, "command-gamemode-other",
                         Placeholder.component("gamemode", Component.translatable(gameMode)),
                         Placeholder.parsed("player", player.getName()));
             }
