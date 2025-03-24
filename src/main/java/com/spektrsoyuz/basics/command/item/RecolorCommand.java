@@ -10,6 +10,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.DyedItemColor;
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Color;
@@ -62,7 +63,7 @@ public final class RecolorCommand {
 
                 // Send a message to the sender
                 this.plugin.getConfigController().sendMessage(sender, "command-recolor-success",
-                        Placeholder.parsed("color", colorString));
+                        Placeholder.component("color", Component.text(colorString, TextColor.fromHexString(colorString))));
                 return Command.SINGLE_SUCCESS;
             }
 
