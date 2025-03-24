@@ -2,6 +2,7 @@ package com.spektrsoyuz.basics;
 
 import com.spektrsoyuz.basics.command.item.RecolorCommand;
 import com.spektrsoyuz.basics.command.item.RenameCommand;
+import com.spektrsoyuz.basics.command.item.UnbreakableCommand;
 import com.spektrsoyuz.basics.command.player.*;
 import com.spektrsoyuz.basics.command.teleport.TeleportAllCommand;
 import com.spektrsoyuz.basics.command.teleport.TeleportCommand;
@@ -63,6 +64,7 @@ public final class BasicsPlugin extends JavaPlugin {
             // Item commands
             new RecolorCommand(this).register(registrar);
             new RenameCommand(this).register(registrar);
+            new UnbreakableCommand(this).register(registrar);
 
             // Player commands
             new GameModeCommand(this).register(registrar);

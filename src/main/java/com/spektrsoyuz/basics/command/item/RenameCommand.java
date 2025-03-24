@@ -27,11 +27,34 @@ public final class RenameCommand {
     public void register(final Commands registrar) {
         final var command = Commands.literal("rename")
                 .requires(stack -> stack.getSender().hasPermission(BasicsUtils.PERMISSION_COMMAND_RENAME))
+                .then(Commands.literal("reset")
+                        .executes(this::reset))
                 .then(Commands.argument("name", StringArgumentType.greedyString())
                         .executes(this::rename))
                 .build();
 
         registrar.register(command, "Rename an item");
+    }
+
+    // Resets the name of a held item
+    private int reset(final CommandContext<CommandSourceStack> context) {
+        final CommandSender sender = context.getSource().getSender();
+
+        // Check if sender is a player
+        if (sender instanceof Player player) {
+            final ItemStack item = player.getInventory().getItemInMainHand();
+
+            // Set the name of the item
+            item.resetData(DataComponentTypes.CUSTOM_NAME);
+            player.getInventory().setItemInMainHand(item);
+
+            // Send a message to the sender
+            this.plugin.getConfigController().sendMessage(sender, "command-rename-success",
+                    Placeholder.component("name", item.displayName()));
+        } else {
+            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
+        }
+        return 0;
     }
 
     // Renames a held item

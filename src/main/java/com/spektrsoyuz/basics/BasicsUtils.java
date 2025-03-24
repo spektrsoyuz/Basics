@@ -8,6 +8,7 @@ public final class BasicsUtils {
     // Permission Nodes
     public static final String PERMISSION_COMMAND_RECOLOR = "basics.command.recolor";
     public static final String PERMISSION_COMMAND_RENAME = "basics.command.rename";
+    public static final String PERMISSION_COMMAND_UNBREAKABLE = "basics.command.unbreakable";
 
     public static final String PERMISSION_COMMAND_GAMEMODE = "basics.command.gamemode";
     public static final String PERMISSION_COMMAND_GAMEMODE_OTHER = "basics.command.gamemode.other";
