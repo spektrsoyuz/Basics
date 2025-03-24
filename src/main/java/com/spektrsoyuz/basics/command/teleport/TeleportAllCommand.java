@@ -55,7 +55,7 @@ public final class TeleportAllCommand {
 
             // Send message to command sender
             this.plugin.getConfigController().sendMessage(player, "command-teleport-all-to-position",
-                    BasicsUtils.getFinePositionResolvers(player, location));
+                    this.plugin.getPlayerController().getFinePositionResolvers(player, location));
 
             for (final Player onlinePlayer : this.plugin.getServer().getOnlinePlayers()) {
                 if (onlinePlayer == player) continue;

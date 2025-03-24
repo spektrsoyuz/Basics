@@ -5,7 +5,9 @@ import com.spektrsoyuz.basics.BasicsPlugin;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -38,5 +40,18 @@ public final class PlayerController {
         });
 
         return Command.SINGLE_SUCCESS;
+    }
+
+    // Get the tag resolvers for a fine position teleport message
+    public TagResolver[] getFinePositionResolvers(final Player player, final Location location) {
+        return new TagResolver[]{
+                Placeholder.parsed("player", player.getName()),
+                Placeholder.parsed("x", String.valueOf(location.getX())),
+                Placeholder.parsed("y", String.valueOf(location.getY())),
+                Placeholder.parsed("z", String.valueOf(location.getZ())),
+                Placeholder.parsed("yaw", String.valueOf(location.getYaw())),
+                Placeholder.parsed("pitch", String.valueOf(location.getPitch())),
+                Placeholder.parsed("world", location.getWorld().getName())
+        };
     }
 }

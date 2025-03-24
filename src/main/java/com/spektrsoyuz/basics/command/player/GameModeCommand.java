@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+// Command class for the /gamemode command
 @RequiredArgsConstructor
 @SuppressWarnings("UnstableApiUsage")
 public final class GameModeCommand {

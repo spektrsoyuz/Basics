@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+// Command class for the /gms command
 @RequiredArgsConstructor
 @SuppressWarnings("UnstableApiUsage")
 public final class GMSCommand {

@@ -61,7 +61,7 @@ public final class TeleportCommand {
 
             // Send message to command sender
             this.plugin.getConfigController().sendMessage(player, "command-teleport-position",
-                    BasicsUtils.getFinePositionResolvers(player, location));
+                    this.plugin.getPlayerController().getFinePositionResolvers(player, location));
             return Command.SINGLE_SUCCESS;
         } else {
             this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
@@ -109,7 +109,7 @@ public final class TeleportCommand {
 
         // Send message to command sender
         this.plugin.getConfigController().sendMessage(sender, "command-teleport-player-to-position",
-                BasicsUtils.getFinePositionResolvers(target, location));
+                this.plugin.getPlayerController().getFinePositionResolvers(target, location));
 
         // Send message to teleport recipient player
         if (!(sender instanceof Player player && player.equals(target))) {
