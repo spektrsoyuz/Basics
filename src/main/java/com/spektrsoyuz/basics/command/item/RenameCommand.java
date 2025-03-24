@@ -50,9 +50,9 @@ public final class RenameCommand {
             // Send a message to the sender
             this.plugin.getConfigController().sendMessage(sender, "command-rename-success");
             return Command.SINGLE_SUCCESS;
+        } else {
+            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
         }
-
-        this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
         return 0;
     }
 }

@@ -68,9 +68,9 @@ public final class RecolorCommand {
 
             this.plugin.getConfigController().sendMessage(sender, "command-recolor-invalid-color",
                     Placeholder.parsed("color", colorString));
+        } else {
+            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
         }
-
-        this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
         return 0;
     }
 }
