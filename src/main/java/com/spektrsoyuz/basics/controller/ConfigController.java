@@ -15,6 +15,7 @@ import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,7 +74,7 @@ public final class ConfigController {
     public void sendMessage(final Audience audience, final String key, final TagResolver... resolvers) {
         final String message = this.messagesNode.node(key).getString();
 
-        final List<TagResolver> tagResolvers = Arrays.asList(resolvers);
+        final List<TagResolver> tagResolvers = new ArrayList<>(List.of(resolvers));
         tagResolvers.add(Placeholder.parsed("prefix", getPrefix()));
 
         if (this.plugin.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
