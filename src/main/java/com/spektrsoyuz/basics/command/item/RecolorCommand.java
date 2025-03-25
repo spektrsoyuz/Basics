@@ -53,7 +53,6 @@ public final class RecolorCommand {
 
                 // Check if item is leather armor
                 if (!(item.getItemMeta() instanceof LeatherArmorMeta)) {
-                    // TODO need to replace LeatherArmorMeta instance check with a ItemTypeTagKeys.DYEABLE check
                     this.plugin.getConfigController().sendMessage(player, "command-recolor-invalid-item",
                             Placeholder.component("item", item.displayName()));
                     return 0;
