@@ -16,7 +16,6 @@ import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // Controller class for managing configuration files
@@ -70,7 +69,7 @@ public final class ConfigController {
         return prefix != null ? prefix : "";
     }
 
-    // Sends a message to an audience using a message from the message config
+    // Sends a message to an audience from the message config
     public void sendMessage(final Audience audience, final String key, final TagResolver... resolvers) {
         final String message = this.messagesNode.node(key).getString();
 
