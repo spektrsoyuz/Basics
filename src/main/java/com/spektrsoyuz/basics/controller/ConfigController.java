@@ -69,7 +69,7 @@ public final class ConfigController {
         return prefix != null ? prefix : "";
     }
 
-    // Sends a message to an audience using a message from the message config
+    // Sends a message to an audience from the message config
     public void sendMessage(final Audience audience, final String key, final TagResolver... resolvers) {
         final String message = this.messagesNode.node(key).getString();
 
