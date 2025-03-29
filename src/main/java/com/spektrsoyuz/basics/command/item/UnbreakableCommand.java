@@ -8,7 +8,6 @@ import com.spektrsoyuz.basics.BasicsUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.datacomponent.DataComponentTypes;
-import io.papermc.paper.datacomponent.item.Unbreakable;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
@@ -48,9 +47,7 @@ public final class UnbreakableCommand {
                 this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-remove",
                         Placeholder.component("item", item.displayName()));
             } else {
-                item.setData(DataComponentTypes.UNBREAKABLE, Unbreakable.unbreakable()
-                        .showInTooltip(showInToolTip)
-                        .build());
+                item.setData(DataComponentTypes.UNBREAKABLE);
                 this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-add",
                         Placeholder.component("item", item.displayName()));
             }

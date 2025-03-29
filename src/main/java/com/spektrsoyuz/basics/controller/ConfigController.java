@@ -16,7 +16,6 @@ import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 // Controller class for managing configuration files

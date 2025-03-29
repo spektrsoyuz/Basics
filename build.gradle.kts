@@ -1,7 +1,10 @@
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
     id("java")
-    id("com.gradleup.shadow") version "9.0.0-beta2"
-    id("io.freefair.lombok") version "8.12.1"
+    id("com.gradleup.shadow") version "9.0.0-beta11"
+    id("io.freefair.lombok") version "8.13.1"
+    id("de.eldoria.plugin-yml.paper") version "0.7.1"
 }
 
 group = "com.spektrsoyuz"
@@ -14,10 +17,10 @@ repositories {
 }
 
 dependencies {
-    implementation("com.zaxxer:HikariCP:6.2.1")
-    implementation("org.spongepowered:configurate-hocon:4.2.0")
+    implementation("com.zaxxer:HikariCP:6.3.0")
+    implementation("org.spongepowered:configurate-hocon:4.3.0-SNAPSHOT")
 
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.5-R0.1-SNAPSHOT")
     compileOnly("io.github.miniplaceholders:miniplaceholders-api:2.3.0")
 }
 
@@ -31,5 +34,26 @@ tasks {
     }
     build {
         dependsOn(shadowJar)
+    }
+}
+
+paper {
+    name = "Basics"
+    main = "com.spektrsoyuz.basics.BasicsPlugin"
+    apiVersion = "1.21.5"
+    website = "https://spektrsoyuz.com"
+    authors = listOf("SpektrSoyuz")
+    foliaSupported = false
+
+    serverDependencies {
+        register("MiniPlaceholders") {
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+            required = true
+            joinClasspath = true
+        }
+    }
+
+    permissions {
+
     }
 }

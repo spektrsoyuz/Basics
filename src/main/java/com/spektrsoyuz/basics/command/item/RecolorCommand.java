@@ -59,7 +59,7 @@ public final class RecolorCommand {
                 }
 
                 // Set color of item
-                item.setData(DataComponentTypes.DYED_COLOR, DyedItemColor.dyedItemColor(color, true));
+                item.setData(DataComponentTypes.DYED_COLOR, DyedItemColor.dyedItemColor().color(color).build());
 
                 // Send a message to the sender
                 this.plugin.getConfigController().sendMessage(sender, "command-recolor-success",
