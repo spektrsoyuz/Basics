@@ -8,6 +8,7 @@ import com.spektrsoyuz.basics.BasicsUtils;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.datacomponent.DataComponentTypes;
+import io.papermc.paper.datacomponent.item.TooltipDisplay;
 import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,7 @@ public final class UnbreakableCommand {
                 .requires(stack -> stack.getSender().hasPermission(BasicsUtils.PERMISSION_COMMAND_UNBREAKABLE))
                 .then(Commands.argument("showInToolTip", BoolArgumentType.bool())
                         .executes(context -> unbreakable(context, context.getArgument("showInToolTip", Boolean.class))))
-                .executes(context -> unbreakable(context, false))
+                .executes(context -> unbreakable(context, true))
                 .build();
 
         registrar.register(command, "Toggle unbreakable for an item");
@@ -48,6 +49,11 @@ public final class UnbreakableCommand {
                         Placeholder.component("item", item.displayName()));
             } else {
                 item.setData(DataComponentTypes.UNBREAKABLE);
+
+                final TooltipDisplay tooltipDisplay = item.getData(DataComponentTypes.TOOLTIP_DISPLAY);
+                if (tooltipDisplay != null && showInToolTip) {
+                    tooltipDisplay.hiddenComponents().add(DataComponentTypes.UNBREAKABLE);
+                }
                 this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-add",
                         Placeholder.component("item", item.displayName()));
             }
