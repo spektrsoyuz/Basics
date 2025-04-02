@@ -1,3 +1,9 @@
+/*
+ * Basics Plugin
+ *
+ * Copyright (c) 2025 SpektrSoyuz
+ * All Rights Reserves
+ */
 package com.spektrsoyuz.basics.command.item;
 
 import com.mojang.brigadier.Command;
