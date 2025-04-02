@@ -75,6 +75,22 @@ public final class ConfigController {
         return prefix != null ? prefix : "";
     }
 
+    // Retrieves a message from the message config
+    public @NotNull Component getMessage(final String key, final TagResolver... resolvers) {
+        final String message = this.messagesNode.node(key).getString();
+
+        final List<TagResolver> tagResolvers = new ArrayList<>(List.of(resolvers));
+        tagResolvers.add(Placeholder.parsed("prefix", getPrefix()));
+
+        if (this.plugin.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
+            tagResolvers.add(MiniPlaceholders.getGlobalPlaceholders());
+        }
+
+        return message != null
+                ? MiniMessage.miniMessage().deserialize(message, tagResolvers.toArray(TagResolver[]::new))
+                : Component.text(key);
+    }
+
     // Sends a message to an audience from the message config
     public void sendMessage(final Audience audience, final String key, final TagResolver... resolvers) {
         final String message = this.messagesNode.node(key).getString();
@@ -83,6 +99,7 @@ public final class ConfigController {
         tagResolvers.add(Placeholder.parsed("prefix", getPrefix()));
 
         if (this.plugin.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
+            tagResolvers.add(MiniPlaceholders.getGlobalPlaceholders());
             tagResolvers.add(MiniPlaceholders.getAudiencePlaceholders(audience));
         }
 
