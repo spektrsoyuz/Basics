@@ -48,36 +48,37 @@ public final class RecolorCommand {
         final CommandSender sender = context.getSource().getSender();
 
         // Check if sender is a player
-        if (sender instanceof Player player) {
-            final String colorString = StringArgumentType.getString(context, "color");
-            final TextColor textColor = TextColor.fromHexString(colorString);
+        if (!(sender instanceof Player player)) {
+            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
+            return 0;
+        }
 
-            // Check if hex color is valid
-            if (textColor != null) {
-                final Color color = Color.fromRGB(textColor.value());
-                final ItemStack item = player.getInventory().getItemInMainHand();
+        final String colorString = StringArgumentType.getString(context, "color");
+        final TextColor textColor = TextColor.fromHexString(colorString);
 
-                // Check if item is leather armor
-                if (!(item.getItemMeta() instanceof LeatherArmorMeta)) {
-                    this.plugin.getConfigController().sendMessage(player, "command-recolor-invalid-item",
-                            Placeholder.component("item", item.displayName()));
-                    return 0;
-                }
-
-                // Set color of item
-                item.setData(DataComponentTypes.DYED_COLOR, DyedItemColor.dyedItemColor().color(color).build());
-
-                // Send a message to the sender
-                this.plugin.getConfigController().sendMessage(sender, "command-recolor-success",
-                        Placeholder.component("color", Component.text(colorString, TextColor.fromHexString(colorString))));
-                return Command.SINGLE_SUCCESS;
-            }
-
+        // Check if hex color is valid
+        if (textColor == null) {
             this.plugin.getConfigController().sendMessage(sender, "command-recolor-invalid-color",
                     Placeholder.parsed("color", colorString));
-        } else {
-            this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
+            return 0;
         }
-        return 0;
+
+        final Color color = Color.fromRGB(textColor.value());
+        final ItemStack item = player.getInventory().getItemInMainHand();
+
+        // Check if item is leather armor
+        if (!(item.getItemMeta() instanceof LeatherArmorMeta)) {
+            this.plugin.getConfigController().sendMessage(player, "command-recolor-invalid-item",
+                    Placeholder.component("item", item.displayName()));
+            return 0;
+        }
+
+        // Set color of item
+        item.setData(DataComponentTypes.DYED_COLOR, DyedItemColor.dyedItemColor().color(color).build());
+
+        // Send a message to the sender
+        this.plugin.getConfigController().sendMessage(sender, "command-recolor-success",
+                Placeholder.component("color", Component.text(colorString, TextColor.fromHexString(colorString))));
+        return Command.SINGLE_SUCCESS;
     }
 }

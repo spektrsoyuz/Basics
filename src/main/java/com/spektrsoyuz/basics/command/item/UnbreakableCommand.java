@@ -45,32 +45,38 @@ public final class UnbreakableCommand {
         final CommandSender sender = context.getSource().getSender();
 
         // Check if sender is a player
-        if (sender instanceof Player player) {
-            final ItemStack item = player.getInventory().getItemInMainHand();
-
-            // Check if the item is unbreakable
-            if (item.hasData(DataComponentTypes.UNBREAKABLE)) {
-                item.unsetData(DataComponentTypes.UNBREAKABLE);
-                this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-remove",
-                        Placeholder.component("item", item.displayName()));
-            } else {
-                item.setData(DataComponentTypes.UNBREAKABLE);
-
-                // Set tooltip display
-                final TooltipDisplay tooltipDisplay = item.getData(DataComponentTypes.TOOLTIP_DISPLAY);
-                if (tooltipDisplay != null && showInToolTip) {
-                    tooltipDisplay.hiddenComponents().add(DataComponentTypes.UNBREAKABLE);
-                }
-                this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-add",
-                        Placeholder.component("item", item.displayName()));
-            }
-
-            // Replace original item with new item
-            player.getInventory().setItemInMainHand(item);
-            return Command.SINGLE_SUCCESS;
-        } else {
+        if (!(sender instanceof Player player)) {
             this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
+            return 0;
         }
-        return 0;
+
+        final ItemStack item = player.getInventory().getItemInMainHand();
+
+        // Check if itemstack is empty
+        if (item.isEmpty()) {
+            this.plugin.getConfigController().sendMessage(sender, "error-no-item");
+            return 0;
+        }
+
+        // Check if the item is unbreakable
+        if (item.hasData(DataComponentTypes.UNBREAKABLE)) {
+            item.unsetData(DataComponentTypes.UNBREAKABLE);
+            this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-remove",
+                    Placeholder.component("item", item.displayName()));
+        } else {
+            item.setData(DataComponentTypes.UNBREAKABLE);
+
+            // Set tooltip display
+            final TooltipDisplay tooltipDisplay = item.getData(DataComponentTypes.TOOLTIP_DISPLAY);
+            if (tooltipDisplay != null && showInToolTip) {
+                tooltipDisplay.hiddenComponents().add(DataComponentTypes.UNBREAKABLE);
+            }
+            this.plugin.getConfigController().sendMessage(sender, "command-unbreakable-add",
+                    Placeholder.component("item", item.displayName()));
+        }
+
+        // Replace original item with new item
+        player.getInventory().setItemInMainHand(item);
+        return Command.SINGLE_SUCCESS;
     }
 }

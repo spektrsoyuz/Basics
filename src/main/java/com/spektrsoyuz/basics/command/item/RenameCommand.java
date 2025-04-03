@@ -47,20 +47,21 @@ public final class RenameCommand {
         final CommandSender sender = context.getSource().getSender();
 
         // Check if sender is a player
-        if (sender instanceof Player player) {
-            final ItemStack item = player.getInventory().getItemInMainHand();
-
-            // Set the name of the item
-            item.resetData(DataComponentTypes.CUSTOM_NAME);
-            player.getInventory().setItemInMainHand(item);
-
-            // Send a message to the sender
-            this.plugin.getConfigController().sendMessage(sender, "command-rename-success",
-                    Placeholder.component("name", item.displayName()));
-        } else {
+        if (!(sender instanceof Player player)) {
             this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
+            return 0;
         }
-        return 0;
+        final ItemStack item = player.getInventory().getItemInMainHand();
+
+        // Set the name of the item
+        item.resetData(DataComponentTypes.CUSTOM_NAME);
+        player.getInventory().setItemInMainHand(item);
+
+        // Send a message to the sender
+        this.plugin.getConfigController().sendMessage(sender, "command-rename-success",
+                Placeholder.component("name", item.displayName()));
+
+        return Command.SINGLE_SUCCESS;
     }
 
     // Renames a held item
@@ -68,22 +69,23 @@ public final class RenameCommand {
         final CommandSender sender = context.getSource().getSender();
 
         // Check if sender is a player
-        if (sender instanceof Player player) {
-            final String name = StringArgumentType.getString(context, "name");
-            final ItemStack item = player.getInventory().getItemInMainHand();
-            final Component displayName = MiniMessage.miniMessage().deserialize(name);
-
-            // Set the name of the item
-            item.setData(DataComponentTypes.CUSTOM_NAME, displayName);
-            player.getInventory().setItemInMainHand(item);
-
-            // Send a message to the sender
-            this.plugin.getConfigController().sendMessage(sender, "command-rename-success",
-                    Placeholder.component("name", displayName));
-            return Command.SINGLE_SUCCESS;
-        } else {
+        if (!(sender instanceof Player player)) {
             this.plugin.getConfigController().sendMessage(sender, "error-sender-not-player");
+            return 0;
         }
-        return 0;
+
+        final String name = StringArgumentType.getString(context, "name");
+        final ItemStack item = player.getInventory().getItemInMainHand();
+        final Component displayName = MiniMessage.miniMessage().deserialize(name);
+
+        // Set the name of the item
+        item.setData(DataComponentTypes.CUSTOM_NAME, displayName);
+        player.getInventory().setItemInMainHand(item);
+
+        // Send a message to the sender
+        this.plugin.getConfigController().sendMessage(sender, "command-rename-success",
+                Placeholder.component("name", displayName));
+        return Command.SINGLE_SUCCESS;
+
     }
 }
