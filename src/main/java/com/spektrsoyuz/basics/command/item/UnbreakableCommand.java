@@ -56,6 +56,7 @@ public final class UnbreakableCommand {
             } else {
                 item.setData(DataComponentTypes.UNBREAKABLE);
 
+                // Set tooltip display
                 final TooltipDisplay tooltipDisplay = item.getData(DataComponentTypes.TOOLTIP_DISPLAY);
                 if (tooltipDisplay != null && showInToolTip) {
                     tooltipDisplay.hiddenComponents().add(DataComponentTypes.UNBREAKABLE);
@@ -64,6 +65,7 @@ public final class UnbreakableCommand {
                         Placeholder.component("item", item.displayName()));
             }
 
+            // Replace original item with new item
             player.getInventory().setItemInMainHand(item);
             return Command.SINGLE_SUCCESS;
         } else {
