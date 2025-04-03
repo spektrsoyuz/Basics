@@ -9,12 +9,12 @@ package com.spektrsoyuz.basics.controller;
 import com.mojang.brigadier.Command;
 import com.spektrsoyuz.basics.BasicsPlugin;
 import lombok.RequiredArgsConstructor;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -31,15 +31,15 @@ public final class PlayerController {
     }
 
     // Sets the gamemode of a player
-    public int setGameMode(final CommandSender sender, final GameMode gameMode, final List<Player> players) {
+    public int setGameMode(final Audience audience, final GameMode gameMode, final List<Player> players) {
         players.forEach(player -> {
             player.setGameMode(gameMode);
 
             this.plugin.getConfigController().sendMessage(player, "command-gamemode-self",
                     Placeholder.component("gamemode", Component.translatable(gameMode)));
 
-            if (!sender.equals(player)) {
-                this.plugin.getConfigController().sendMessage(sender, "command-gamemode-other",
+            if (!audience.equals(player)) {
+                this.plugin.getConfigController().sendMessage(audience, "command-gamemode-other",
                         Placeholder.component("gamemode", Component.translatable(gameMode)),
                         Placeholder.parsed("player", player.getName()));
             }
