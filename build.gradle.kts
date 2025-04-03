@@ -48,7 +48,7 @@ paper {
     serverDependencies {
         register("MiniPlaceholders") {
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-            required = true
+            required = false
             joinClasspath = true
         }
     }
