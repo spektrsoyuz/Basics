@@ -54,6 +54,13 @@ paper {
     }
 
     permissions {
-
+        register("basics.command.recolor")
+        register("basics.command.rename")
+        register("basics.command.unbreakable")
+        register("basics.command.gamemode")
+        register("basics.command.gamemode.other")
+        register("basics.command.teleportall")
+        register("basics.command.teleport")
+        register("basics.command.teleporthere")
     }
 }
