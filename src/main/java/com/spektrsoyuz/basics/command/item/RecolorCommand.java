@@ -2,7 +2,7 @@
  * Basics Plugin
  *
  * Copyright (c) 2025 SpektrSoyuz
- * All Rights Reserves
+ * All Rights Reserved
  */
 package com.spektrsoyuz.basics.command.item;
 
