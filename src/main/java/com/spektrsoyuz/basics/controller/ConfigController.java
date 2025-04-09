@@ -64,18 +64,18 @@ public final class ConfigController {
         }
     }
 
-    // Retrieves the version number from the config
+    // Gets the version number from the config
     public int getVersion() {
         return this.configNode.node("version").getInt();
     }
 
-    // Retrieves the command prefix from the message config
+    // Gets the command prefix from the message config
     public @NotNull String getPrefix() {
         final String prefix = this.messagesNode.node("prefix").getString();
         return prefix != null ? prefix : "";
     }
 
-    // Retrieves a message from the message config
+    // Gets a message from the message config
     public @NotNull Component getMessage(final String key, final TagResolver... resolvers) {
         final String message = this.messagesNode.node(key).getString();
 
@@ -93,18 +93,6 @@ public final class ConfigController {
 
     // Sends a message to an audience from the message config
     public void sendMessage(final Audience audience, final String key, final TagResolver... resolvers) {
-        final String message = this.messagesNode.node(key).getString();
-
-        final List<TagResolver> tagResolvers = new ArrayList<>(List.of(resolvers));
-        tagResolvers.add(Placeholder.parsed("prefix", getPrefix()));
-
-        if (this.plugin.getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
-            tagResolvers.add(MiniPlaceholders.getGlobalPlaceholders());
-            tagResolvers.add(MiniPlaceholders.getAudiencePlaceholders(audience));
-        }
-
-        audience.sendMessage(message != null
-                ? MiniMessage.miniMessage().deserialize(message, tagResolvers.toArray(new TagResolver[0]))
-                : Component.text(key));
+        audience.sendMessage(this.getMessage(key, resolvers));
     }
 }
